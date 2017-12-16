@@ -1,0 +1,383 @@
+#!/bin/bash
+
+# 说明：请使用bash命令运行脚本，否则会报错
+
+# 清空终端
+clear
+
+# 构建图形化界面
+GUI=$(zenity --list --checklist \
+  --height="800" \
+  --width="1800" \
+  --title="Elementary OS 快速配置工具" \
+  --text="请从下面列表中选择需要设置或安装的项目" \
+  --column="选择" --column="操作"	--column="描述" \
+  TRUE  "Update Source" "更新软件源"  \
+  TRUE  "安装系统组件" "一些系统必备的组建" \
+  FALSE "安装桌面组件" "系统桌面图标显示，右键正常使用" \
+  FALSE "Sublime Text3" "一款流行的代码编辑器软件"  \
+  FALSE "安装 fcitx 框架" "安装 fcitx 输入法框架，卸载ibus输入法，并安装谷歌拼音输入法" \
+  FALSE "安装顶部面板网速工具" "在顶部面板显示当前网速，可监控指定网卡" \
+  FALSE "安装SS客户端" "梯子工具" \
+  TRUE "安装 Elementary Tweaks" "用于安装系统主题，进行系统其他配置" \
+  FALSE "安装扩展主题" "包含 mega 图标主题、arc 系统主题、paper 系统主题和图标主题" \
+  FALSE "安装 Google Chrome" "安装谷歌浏览器，并卸载系统自带的浏览器" \
+  FALSE "安装 Firefox" "安装火狐浏览器，并卸载系统自带的浏览器" \
+  FALSE "安装 FeedReader" "FeedReader 是一款简洁高效的RSS阅读器" \
+  FALSE "安装 GIMP" "GIMP 是跨平台的图像处理程序，号称 Linux 下的 PhotoShop" \
+  FALSE "安装 inkscape" "和Windows下的AI差不多，也是制图的" \
+  FALSE "安装 BleachBit 系统清理工具" "可以清理系统缓存垃圾，不建议经常清理，偶尔清理下可以释放磁盘空间" \
+  FALSE "安装 Gnome 系统监视器" "类似于windows下的“任务管理器”" \
+  TRUE "替换计算器" "替换计算器为 Gnome 计算器，自带计算器功能太简单" \
+  FALSE "安装 WPS" "安装 wps office" \
+  FALSE "安装 LibreOffice" "安装 LibreOffice，开源免费的办公软件"\
+  FALSE "安装网易云音乐" "目前 Linux 平台唯一的在线音乐客户端" \
+  FALSE "安装 Arronax" "用于创建或编辑启动器图标" \
+  FALSE "安装 Shutter" "强大的截屏软件" \
+  FALSE "安装有道词典" "有道词典 Linux 客户端" \
+  FALSE "安装 Synapse" "快速启动程序及搜索本地文件等" \
+  FALSE "安装下载工具" "安装 qBittorrent、uget、aria2" \
+  FALSE "安装 GParted" "硬盘分区编辑软件，可以无损修改分区大小，但建议编辑前做好数据备份" \
+  FALSE "安装 Kazam" "简单好用的录屏软件" \
+  TRUE "修复损坏的软件包" "修复软件包依赖，修复无法启动的软件包" \
+  TRUE "清理软件包" "删除系统冗余的软件包及清理本地软件包缓存" \
+  --separator="|");
+
+if [[ $GUI ]]
+then
+
+  # 更新源
+  if [[ $GUI == *"Update Source"* ]]
+  then
+    clear
+  	echo "正在更新源......"
+  	echo ""
+  	sudo apt -y update
+  fi
+
+  # 安装软件源设置工具操作
+  if [[ $GUI == *"安装系统组件"* ]]
+  then
+  	clear
+  	echo "正在安装系统组件"
+  	echo ""
+        mkdir ~/.themes
+        mkdir ~/.icons
+  	sudo apt -y install build-essential autoconf libtool gcc g++ make cmake git-core links zip unzip unrar software-properties-common grep patch wget git
+  fi
+
+  # 安装安装桌面组件
+  if [[ $GUI == *"安装桌面组件"* ]]
+  then
+    clear
+    echo "正在安装安装系统组件"
+    echo ""
+    sudo apt -y install nautilus
+    gsettings set org.gnome.desktop.background show-desktop-icons 'true'
+  fi
+
+  # Sublime Text3
+  if [[ $GUI == *"Sublime Text3"* ]]
+  then
+        clear
+        echo "正在安装Sublime Text3......"
+        echo ""
+        wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+        sudo apt -y install apt-transport-https
+        echo "deb https://download.sublimetext.com/ apt/dev/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+        sudo apt-get update
+        sudo apt -y install sublime-text
+        git clone https://github.com/lyfeyaj/sublime-text-imfix.git
+        cd sublime-text-imfix && ./sublime-imfix
+  fi
+
+  # 安装 fcitx 框架操作
+  if [[ $GUI == *"安装 fcitx 框架"* ]]
+  then
+  	clear
+  	echo "正在安装fcitx输入法框架"
+  	echo ""
+        sudo apt install -y fcitx fcitx-frontend-all fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-frontend-qt4 fcitx-config-gtk fcitx-ui-classic fcitx-module-kimpanel fcitx-module-dbus libopencc1 fcitx-libs-qt fcitx-libs im-config
+        clear
+        echo "正在安装google输入法"
+        echo ""
+        sudo apt -y install fcitx-googlepinyin
+        clear
+        echo "正在卸载ibus输入法框架"
+        echo ""
+        sudo apt -y remove ibus
+        sudo apt -y install switchboard-plug-gcc-color switchboard-plug-gcc-sound switchboard-plug-gcc-wacom unity-control-center
+        clear
+        im-config
+  fi
+
+  # 安装顶部面板网速工具
+  if [[ $GUI == *"安装顶部面板网速工具"* ]]
+  then
+  	clear
+  	echo "正在安装顶部面板网速工具"
+  	echo ""
+  	sudo add-apt-repository -y ppa:nilarimogard/webupd8
+        sudo apt-get update
+        sudo apt -y install indicator-netspeed
+  fi
+
+  # 安装SS客户端
+  if [[ $GUI == *"安装SS客户端"* ]]
+  then
+  	clear
+  	echo "正在安装SS客户端"
+  	echo ""
+  	sudo sh -c 'printf "deb http://deb.debian.org/debian jessie-backports main\n" > /etc/apt/sources.list.d/jessie-backports.list'
+        sudo sh -c 'printf "deb http://deb.debian.org/debian jessie-backports-sloppy main" >> /etc/apt/sources.list.d/jessie-backports.list'
+        sudo add-apt-repository -y ppa:hzwhuang/ss-qt5
+        sudo apt-get update
+        sudo apt-get -y -f install
+        sudo apt -y install qt5-qmake qtbase5-dev libqrencode-dev libqtshadowsocks-dev libappindicator-dev libzbar-dev libbotan1.10-dev
+        sudo apt -y install shadowsocks-qt5
+  fi
+
+  # 安装 Elementary Tweaks 操作
+  if [[ $GUI == *"安装 Elementary Tweaks"* ]]
+  then
+  	clear
+  	echo "正在安装 Elementary Tweaks"
+  	echo ""
+  	sudo add-apt-repository -y ppa:philip.scott/elementary-tweaks
+  	sudo apt update
+  	sudo apt -y install elementary-tweaks
+  fi
+
+  # 安装扩展主题操作
+  if [[ $GUI == *"安装扩展主题"* ]]
+  then
+  	clear
+  	echo "正在安装 OSX-Arc 主题"
+  	echo ""
+  	wget https://github.com/LinxGem33/OSX-Arc-White/releases/download/v1.4.3/osx-arc-collection_1.4.3_amd64.deb
+  	sudo dpkg -i osx-arc-collection_1.4.3_amd64.deb
+  	sudo rm -rf osx-arc-collection_1.4.3_amd64.deb
+        clear
+        echo "正在安装 macOS-Sierra 主题"
+        echo ""
+        cd ~/.themes
+        git clone https://github.com/B00merang-Project/macOS-Sierra.git
+        clear
+        echo "正在安装 Paper 主题"
+        echo ""
+        sudo add-apt-repository -y ppa:snwh/pulp
+        sudo apt update
+        sudo apt install -y paper-gtk-theme paper-icon-theme
+  fi
+
+  # 安装 Google Chrome 操作
+  if [[ $GUI == *"安装 Google Chrome"* ]]
+  then
+  	clear
+  	echo "正在安装 Google Chrome"
+  	echo ""
+  	wget http://linux-1251056822.file.myqcloud.com/ubuntu/google-chrome-stable_current_amd64.deb
+  	sudo apt install libappindicator1 -y
+        sudo dpkg -i google-chrome-stable_current_amd64.deb
+        sudo rm google-chrome-stable_current_amd64.deb
+  fi
+
+  # 安装火狐浏览器操作
+  if [[ $GUI == *"安装 Firefox"* ]]
+  then
+  	clear
+  	echo "正在安装火狐浏览器"
+  	echo ""
+  	sudo apt -y install firefox
+        clear
+  fi
+
+  # 安装 FeedReader 操作
+  if [[ $GUI == *"安装 FeedReader"* ]]
+  then
+  	clear
+  	echo "正在FeedReader"
+  	echo ""
+  	sudo apt -y install feedreader
+  fi
+
+  # 安装 GIMP 操作
+  if [[ $GUI == *"安装 GIMP"* ]]
+  then
+  	clear
+  	echo "正在安装GIMP"
+  	echo ""
+  	sudo apt -y install gimp
+  fi
+
+  # 安装 BleachBit 系统清理工具操作
+  if [[ $GUI == *"安装 BleachBit 系统清理工具"* ]]
+  then
+  	clear
+  	echo "正在安装BleachBit系统清理工具"
+  	echo ""
+  	sudo apt -y install bleachbit
+  fi
+
+  # 安装 Gnome 系统监视器操作
+  if [[ $GUI == *"安装 Gnome 系统监视器"* ]]
+  then
+  	clear
+  	echo "正在安装Gnome系统监视器"
+  	echo ""
+  	sudo apt -y install gnome-system-monitor
+  fi
+
+  # 替换计算器操作
+  if [[ $GUI == *"替换计算器"* ]]
+  then
+    clear
+    echo "正在安装Gnome计算器"
+    echo ""
+    sudo apt -y install gnome-calculator
+    clear
+    echo "正在卸载自带计算器"
+    echo ""
+    sudo apt -y remove --purge pantheon-calculator
+  fi
+
+  # 安装 WPS 操作
+  if [[ $GUI == *"安装 WPS"* ]]
+  then
+    clear
+    echo "正在安装WPS"
+    echo ""
+    wget http://kdl.cc.ksosoft.com/wps-community/download/a21/wps-office_10.1.0.5672~a21_amd64.deb
+    sudo dpkg -i wps-office_10.1.0.5672~a21_amd64.deb
+    sudo rm wps-office_10.1.0.5672~a21_amd64.deb
+  fi
+
+  # 安装 LibreOffice 操作
+  if [[ $GUI == *"安装 LibreOffice"* ]]
+  then
+    clear
+    echo "正在安装LibreOffice"
+    echo ""
+    sudo apt -y install libreoffice
+  fi
+
+  # 安装网易云音乐操作
+  if [[ $GUI == *"安装网易云音乐"* ]]
+  then
+    clear
+    echo "正在下载网易云音乐安装包"
+    echo ""
+    wget http://s1.music.126.net/download/pc/netease-cloud-music_1.0.0-2_amd64_ubuntu16.04.deb
+    sudo dpkg -i netease-cloud-music_1.0.0-2_amd64_ubuntu16.04.deb
+    sudo rm netease-cloud-music_1.0.0-2_amd64_ubuntu16.04.deb
+  fi
+
+  # 安装 Arronax 操作
+  if [[ $GUI == *"安装 Arronax"* ]]
+  then
+    clear
+    echo "正在Arronax"
+    echo ""
+    sudo add-apt-repository -y ppa:diesch/testing
+    sudo apt update
+    sudo apt -y install arronax
+  fi
+
+  # 安装 Shutter 操作
+  if [[ $GUI == *"安装 Shutter"* ]]
+  then
+    clear
+    echo "正在Shutter"
+    echo ""
+    sudo apt -y install shutter
+  fi
+
+  # 安装有道词典操作
+  if [[ $GUI == *"安装有道词典"* ]]
+  then
+    clear
+    echo "正在安装有道词典"
+    echo ""
+    wget http://codown.youdao.com/cidian/linux/youdao-dict_1.1.0-0-ubuntu_amd64.deb
+    sudo apt-get -f install
+    sudo apt -y install python3-pyqt5 python3-pyqt5.qtmultimedia python3-pyqt5.qtquick python3-pyqt5.qtwebkit python3-xlib tesseract-ocr tesseract-ocr-eng tesseract-ocr-chi-sim tesseract-ocr-chi-tra qtdeclarative5-controls-plugin libgstreamer0.10-0 libgstreamer-plugins-base0.10-0  sudo apt-get install gstreamer0.10-plugins-ugly ttf-wqy-microhei
+    sudo dpkg -i youdao-dict_1.1.0-0-ubuntu_amd64.deb
+    sudo rm youdao-dict_1.1.0-0-ubuntu_amd64.deb
+  fi
+
+  # 安装 Synapse 操作
+  if [[ $GUI == *"安装 Synapse"* ]]
+  then
+  	clear
+  	echo "正在安装Synapse"
+  	echo ""
+  	sudo apt -y install synapse
+  fi
+
+  # 安装下载工具操作
+  if [[ $GUI == *"安装下载工具"* ]]
+  then
+  	clear
+  	echo "正在安装qBittorrent"
+  	echo ""
+  	sudo apt -y install qbittorrent uget aria2
+        clear
+  fi
+
+  # 安装 GParted 操作
+  if [[ $GUI == *"安装 GParted"* ]]
+  then
+  	clear
+  	echo "正在安装GParted"
+  	echo ""
+  	sudo apt -y install gparted
+  fi
+
+  # 安装 Kazam 操作
+  if [[ $GUI == *"安装 Kazam"* ]]
+  then
+  	clear
+  	echo "正在安装Kazam"
+  	echo ""
+  	sudo apt -y install kazam
+  fi
+
+  # 安装 Brasero 操作
+  if [[ $GUI == *"安装 Brasero"* ]]
+  then
+  	clear
+  	echo "正在安装Brasero"
+  	echo ""
+  	sudo apt -y install brasero
+  fi
+
+  # 修复损坏的软件包操作
+  if [[ $GUI == *"修复损坏的软件包"* ]]
+  then
+  	clear
+  	echo "正在修复损坏的软件包"
+  	echo ""
+  	sudo apt -y -f install
+  fi
+
+  # 清理软件包操作
+  if [[ $GUI == *"清理软件包"* ]]
+  then
+  	clear
+  	echo "正在清理软件包"
+  	echo ""
+  	sudo apt -y autoremove
+  	sudo apt -y autoclean
+  fi
+
+  # 完成通知
+  clear
+  echo "配置完成，部分配置重启后生效。"
+  echo '-----------------------------------------------------------------------------'
+  echo '制作：ysfl   QQ：1007265870   邮箱：ysfllxcn@live.com   论坛：http://e.ysfl.cn/bbs'
+  echo 'ElementaryOS QQ群：142186807'
+  echo '-----------------------------------------------------------------------------'
+  notify-send -i utilities-terminal ElementartOS快速配置工具 "配置完成，部分配置重启后生效。"
+
+
+fi
