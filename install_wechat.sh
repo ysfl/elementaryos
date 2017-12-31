@@ -1,5 +1,6 @@
 #!/bin/bash
 path="$HOME/.app"
+app="$HOME/elementaryos"
 file="linux-x64.tar.gz"
 wechat="$path/electronic-wechat-linux-x64"
 url="https://github.com/geeeeeeeeek/electronic-wechat/releases/download/V2.0/linux-x64.tar.gz"
@@ -11,10 +12,10 @@ clear
 echo '-----------------------------------------------------------------------------'
 echo "创建应用文件夹.app (建议新手把软件安装到此目录)"
 echo '-----------------------------------------------------------------------------'
-echo "Exec=$path/$wechat/electronic-wechat">>WebChat.desktop
-echo "Icon=$path/$wechat/$icon">>WebChat.desktop
-sudo cp WebChat.desktop /usr/share/applications
-cp WebChat.desktop $HOME/Desktop
+echo "Exec=$wechat/electronic-wechat">>$app/WebChat.desktop
+echo "Icon=$wechat/$icon">>$app/WebChat.desktop
+sudo cp $app/WebChat.desktop /usr/share/applications
+cp $app/WebChat.desktop $HOME/Desktop
 if [ ! -d $path ];
 then
 mkdir $path
@@ -26,18 +27,19 @@ fi
 echo '-----------------------------------------------------------------------------'
 echo "正在下载客户端……"
 echo '-----------------------------------------------------------------------------'
-if [! -f $file ];then
+if [ ! -f $file ];then
   filename="linux-x64.tar.gz"
 else
   filename="new.linux-x64.tar.gz"
 fi
-  wget -O $url
-if [! -f $wechat/wechat.png ];then
-  icon="wechat.png"
+  wget -O $filename $url
+if [ ! -f "$wechat/wechat.png" ];then
+    icon="wechat.png"
 else
-  icon="new.wechat.png"
+    icon="new.wechat.png"
 fi
-  wget -O $ico
+    wget -O $icon $ico
+
 echo '-----------------------------------------------------------------------------'
 echo "解压中……"
 echo '-----------------------------------------------------------------------------'
