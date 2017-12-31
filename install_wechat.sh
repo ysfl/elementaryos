@@ -28,8 +28,9 @@ then
   mkdir $path
 else
 echo ".app文件夹已存在，将继续安装."
-cd $path
 fi
+
+cd $path
 
 echo '-----------------------------------------------------------------------------'
 echo "正在下载客户端……"
@@ -47,7 +48,7 @@ echo '--------------------------------------------------------------------------
   tar -zxvf $filename
   sudo chmod +x /usr/share/applications/WebChat.desktop
   sudo chmod +x $HOME/Desktop/WebChat.desktop
-  mv $app/$icon $wechat
+  mv $HOME/$icon $wechat
   rm $path/$filename
   sudo rm -R $HOME/elementaryos
 
