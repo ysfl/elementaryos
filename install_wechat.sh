@@ -18,7 +18,7 @@ else
   icon="new.wechat.png"
 fi
   wget -O $icon $ico
-  mv $icon $wechat
+
 echo "Exec=$wechat/electronic-wechat">>$app/WebChat.desktop
 echo "Icon=$wechat/$icon">>$app/WebChat.desktop
   sudo cp $app/WebChat.desktop /usr/share/applications
@@ -47,6 +47,7 @@ echo '--------------------------------------------------------------------------
   tar -zxvf $filename
   sudo chmod +x /usr/share/applications/WebChat.desktop
   sudo chmod +x $HOME/Desktop/WebChat.desktop
+  mv $app/$icon $wechat
   rm $path/$filename
   sudo rm -R $HOME/elementaryos
 
