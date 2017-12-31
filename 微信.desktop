@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Exec=/home/请改为你的用户名/.app/electronic-wechat/dist/electronic-wechat-linux-x64/electronic-wechat
+Terminal=false
+Hidden=false
+Icon=/home/请改为你的用户名/.app/electronic-wechat/assets/icon.png
+Name=微信
