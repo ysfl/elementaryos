@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=kihoan
+Comment=MacOS inspired
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=kihoan
+MetacityTheme=kihoan
+IconTheme=gnome
+CursorTheme=DMZ-Black
+ButtonLayout=close,minimize,maximize:menu
