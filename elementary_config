@@ -85,6 +85,7 @@ then
         wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
         sudo apt -y install apt-transport-https
         echo "deb https://download.sublimetext.com/ apt/dev/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+        sudo rm /var/lib/apt/lists/lock
         sudo apt-get update
         sudo apt -y install sublime-text
         git clone https://github.com/lyfeyaj/sublime-text-imfix.git
@@ -115,11 +116,13 @@ then
   if [[ $GUI == *"安装顶部面板网速工具"* ]]
   then
   	clear
-  	echo "正在安装顶部面板网速工具"
-  	echo ""
-  	sudo add-apt-repository -y ppa:nilarimogard/webupd8
+  	    echo "正在安装顶部面板网速工具"
+  	    echo ""
+  	    sudo add-apt-repository -y ppa:nilarimogard/webupd8
+        sudo rm /var/lib/apt/lists/lock
         sudo apt-get update
         sudo apt -y install indicator-netspeed
+        indicator-netspeed &
   fi
 
   # 安装SS客户端
@@ -131,6 +134,7 @@ then
   	sudo sh -c 'printf "deb http://deb.debian.org/debian jessie-backports main\n" > /etc/apt/sources.list.d/jessie-backports.list'
         sudo sh -c 'printf "deb http://deb.debian.org/debian jessie-backports-sloppy main" >> /etc/apt/sources.list.d/jessie-backports.list'
         sudo add-apt-repository -y ppa:hzwhuang/ss-qt5
+        sudo rm /var/lib/apt/lists/lock
         sudo apt-get update
         sudo apt-get -y -f install
         sudo apt -y install qt5-qmake qtbase5-dev libqrencode-dev libqtshadowsocks-dev libappindicator-dev libzbar-dev libbotan1.10-dev
@@ -144,6 +148,7 @@ then
   	echo "正在安装 Elementary Tweaks"
   	echo ""
   	sudo add-apt-repository -y ppa:philip.scott/elementary-tweaks
+    sudo rm /var/lib/apt/lists/lock
   	sudo apt update
   	sudo apt -y install elementary-tweaks
   fi
@@ -156,7 +161,6 @@ then
   	echo ""
   	wget https://github.com/LinxGem33/OSX-Arc-White/releases/download/v1.4.3/osx-arc-collection_1.4.3_amd64.deb
   	sudo dpkg -i osx-arc-collection_1.4.3_amd64.deb
-  	sudo rm -rf osx-arc-collection_1.4.3_amd64.deb
         clear
         echo "正在安装 macOS-Sierra 主题"
         echo ""
@@ -174,21 +178,20 @@ then
   if [[ $GUI == *"安装 Google Chrome"* ]]
   then
   	clear
-  	echo "正在安装 Google Chrome"
-  	echo ""
-  	wget http://linux-1251056822.file.myqcloud.com/ubuntu/google-chrome-stable_current_amd64.deb
-  	sudo apt install libappindicator1 -y
+  	    echo "正在安装 Google Chrome"
+  	    echo ""
+  	    wget http://linux-1251056822.file.myqcloud.com/ubuntu/google-chrome-stable_current_amd64.deb
+  	    sudo apt install libappindicator1 -y
         sudo dpkg -i google-chrome-stable_current_amd64.deb
-        sudo rm google-chrome-stable_current_amd64.deb
   fi
 
   # 安装火狐浏览器操作
   if [[ $GUI == *"安装 Firefox"* ]]
   then
   	clear
-  	echo "正在安装火狐浏览器"
-  	echo ""
-  	sudo apt -y install firefox
+  	    echo "正在安装火狐浏览器"
+  	    echo ""
+  	    sudo apt -y install firefox
         clear
   fi
 
@@ -249,7 +252,6 @@ then
     echo ""
     wget http://kdl.cc.ksosoft.com/wps-community/download/a21/wps-office_10.1.0.5672~a21_amd64.deb
     sudo dpkg -i wps-office_10.1.0.5672~a21_amd64.deb
-    sudo rm wps-office_10.1.0.5672~a21_amd64.deb
   fi
 
   # 安装 LibreOffice 操作
@@ -269,7 +271,6 @@ then
     echo ""
     wget http://s1.music.126.net/download/pc/netease-cloud-music_1.0.0-2_amd64_ubuntu16.04.deb
     sudo dpkg -i netease-cloud-music_1.0.0-2_amd64_ubuntu16.04.deb
-    sudo rm netease-cloud-music_1.0.0-2_amd64_ubuntu16.04.deb
   fi
 
   # 安装 Arronax 操作
@@ -279,6 +280,7 @@ then
     echo "正在Arronax"
     echo ""
     sudo add-apt-repository -y ppa:diesch/testing
+    sudo rm /var/lib/apt/lists/lock
     sudo apt update
     sudo apt -y install arronax
   fi
@@ -302,7 +304,6 @@ then
     sudo apt-get -f install
     sudo apt -y install python3-pyqt5 python3-pyqt5.qtmultimedia python3-pyqt5.qtquick python3-pyqt5.qtwebkit python3-xlib tesseract-ocr tesseract-ocr-eng tesseract-ocr-chi-sim tesseract-ocr-chi-tra qtdeclarative5-controls-plugin libgstreamer0.10-0 libgstreamer-plugins-base0.10-0  sudo apt-get install gstreamer0.10-plugins-ugly ttf-wqy-microhei
     sudo dpkg -i youdao-dict_1.1.0-0-ubuntu_amd64.deb
-    sudo rm youdao-dict_1.1.0-0-ubuntu_amd64.deb
   fi
 
   # 安装 Synapse 操作
