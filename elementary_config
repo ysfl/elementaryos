@@ -23,14 +23,14 @@ GUI=$(zenity --list --checklist \
   FALSE "安装扩展主题" "包含 mega 图标主题、arc 系统主题、paper 系统主题和图标主题" \
   FALSE "安装 Google Chrome" "安装谷歌浏览器，并卸载系统自带的浏览器" \
   FALSE "安装 Firefox" "安装火狐浏览器，并卸载系统自带的浏览器" \
-  FALSE "安装 FeedReader" "FeedReader 是一款简洁高效的RSS阅读器" \
   FALSE "安装 GIMP" "GIMP 是跨平台的图像处理程序，号称 Linux 下的 PhotoShop" \
   FALSE "安装 inkscape" "和Windows下的AI差不多，也是制图的" \
   FALSE "安装 BleachBit 系统清理工具" "可以清理系统缓存垃圾，不建议经常清理，偶尔清理下可以释放磁盘空间" \
   FALSE "安装 Gnome 系统监视器" "类似于windows下的“任务管理器”" \
   TRUE "替换计算器" "替换计算器为 Gnome 计算器，自带计算器功能太简单" \
   FALSE "安装 WPS" "安装 wps office" \
-  FALSE "安装 LibreOffice" "安装 LibreOffice，开源免费的办公软件"\
+  FALSE "安装 LibreOffice 5.1" "安装 LibreOffice，开源免费的办公软件"\
+  FALSE "安装 LibreOffice 6.0" "安装 LibreOffice，最新版~~~"\
   FALSE "安装网易云音乐" "目前 Linux 平台唯一的在线音乐客户端" \
   FALSE "安装 Arronax" "用于创建或编辑启动器图标" \
   FALSE "安装 Shutter" "强大的截屏软件" \
@@ -195,15 +195,6 @@ then
         clear
   fi
 
-  # 安装 FeedReader 操作
-  if [[ $GUI == *"安装 FeedReader"* ]]
-  then
-  	clear
-  	echo "正在FeedReader"
-  	echo ""
-  	sudo apt -y install feedreader
-  fi
-
   # 安装 GIMP 操作
   if [[ $GUI == *"安装 GIMP"* ]]
   then
@@ -254,13 +245,28 @@ then
     sudo dpkg -i wps-office_10.1.0.5672~a21_amd64.deb
   fi
 
-  # 安装 LibreOffice 操作
-  if [[ $GUI == *"安装 LibreOffice"* ]]
+  # 安装 LibreOffice 5.1操作
+  if [[ $GUI == *"安装 LibreOffice 5.1"* ]]
   then
     clear
     echo "正在安装LibreOffice"
     echo ""
     sudo apt -y install libreoffice
+  fi
+
+  # 安装 LibreOffice 6.0 操作
+  if [[ $GUI == *"安装 LibreOffice 6.0"* ]]
+  then
+    clear
+    echo "正在安装LibreOffice最新版6.0"
+    echo ""
+    wget http://download.documentfoundation.org/libreoffice/stable/6.0.3/deb/x86_64/LibreOffice_6.0.3_Linux_x86-64_deb.tar.gz
+    wget http://mirror.rise.ph/tdf/libreoffice/stable/6.0.3/deb/x86_64/LibreOffice_6.0.3_Linux_x86-64_deb_langpack_zh-CN.tar.gz
+    tar -zxvf LibreOffice_6.0.3_Linux_x86-64_deb_langpack_zh-CN.tar.gz
+    tar -zxvf LibreOffice_6.0.3_Linux_x86-64_deb.tar.gz
+    sudo dpkg -i LibreOffice_6.0.3.2_Linux_x86-64_deb/DEBS/*.deb
+    sudo dpkg -i LibreOffice_6.0.3.2_Linux_x86-64_deb_langpack_zh-CN/DEBS/*.deb
+    sudo rm -R LibreOffice_6.0.3.2_Linux_x86-64_deb LibreOffice_6.0.3.2_Linux_x86-64_deb_langpack_zh-CN
   fi
 
   # 安装网易云音乐操作
