@@ -1,6 +1,6 @@
 #!/bin/bash
 path="$HOME/.app"
-app="$HOME/elementaryos"
+app=$(dirname $(readlink -f "install_wechat.sh"))
 file="linux-x64.tar.gz"
 wechat="$path/electronic-wechat-linux-x64"
 url="https://github.com/geeeeeeeeek/electronic-wechat/releases/download/V2.0/linux-x64.tar.gz"
