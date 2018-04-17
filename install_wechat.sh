@@ -26,8 +26,12 @@ fi
 
 echo "Exec=$wechat/electronic-wechat">>$app/WebChat.desktop
 echo "Icon=$wechat/$icon">>$app/WebChat.desktop
+  if [[ ! -f "$HOME/Desktop" ]]; then
+    cp $app/WebChat.desktop $HOME/Desktop
+    sudo chmod +x $HOME/Desktop/WebChat.desktop
+  fi
   sudo cp $app/WebChat.desktop /usr/share/applications
-  cp $app/WebChat.desktop $HOME/Desktop
+  sudo chmod +x /usr/share/applications/WebChat.desktop
 if [ ! -d $path ];
 then
   mkdir $path
@@ -51,9 +55,7 @@ echo '--------------------------------------------------------------------------
 echo "解压中……"
 echo '-----------------------------------------------------------------------------'
   tar -zxvf $filename
-  sudo chmod +x /usr/share/applications/WebChat.desktop
-  sudo chmod +x $HOME/Desktop/WebChat.desktop
-  mv $HOME/$icon $wechat
+  mv $app/$icon $wechat
 
   echo '-----------------------------------------------------------------------------'
   echo "清理文件……"
