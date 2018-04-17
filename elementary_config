@@ -4,7 +4,7 @@
 
 # 清空终端
 clear
-
+zenity --info --text "ben ruan jian shiyongyu chengxuyuan"
 # 构建图形化界面
 GUI=$(zenity --list --checklist \
   --height="800" \
@@ -21,7 +21,7 @@ GUI=$(zenity --list --checklist \
   FALSE "安装SS客户端" "梯子工具" \
   TRUE "安装 Elementary Tweaks" "用于安装系统主题，进行系统其他配置" \
   FALSE "安装扩展主题" "包含 mega 图标主题、arc 系统主题、paper 系统主题和图标主题" \
-  FALSE "安装 Google Chrome" "安装谷歌浏览器，并卸载系统自带的浏览器" \
+  TRUE "安装 Google Chrome" "安装谷歌浏览器，并卸载系统自带的浏览器" \
   FALSE "安装 Firefox" "安装火狐浏览器，并卸载系统自带的浏览器" \
   FALSE "安装 GIMP" "GIMP 是跨平台的图像处理程序，号称 Linux 下的 PhotoShop" \
   FALSE "安装 inkscape" "和Windows下的AI差不多，也是制图的" \
@@ -30,7 +30,7 @@ GUI=$(zenity --list --checklist \
   TRUE "替换计算器" "替换计算器为 Gnome 计算器，自带计算器功能太简单" \
   FALSE "安装 WPS" "安装 wps office" \
   FALSE "安装 LibreOffice 5.1" "安装 LibreOffice，开源免费的办公软件"\
-  FALSE "安装 LibreOffice 6.0" "安装 LibreOffice，最新版~~~"\
+  TRUE "安装 LibreOffice 6.0" "安装 LibreOffice，最新版~~~"\
   FALSE "安装网易云音乐" "目前 Linux 平台唯一的在线音乐客户端" \
   FALSE "安装 Arronax" "用于创建或编辑启动器图标" \
   FALSE "安装 Shutter" "强大的截屏软件" \
@@ -39,6 +39,7 @@ GUI=$(zenity --list --checklist \
   FALSE "安装下载工具" "安装 qBittorrent、uget、aria2" \
   FALSE "安装 GParted" "硬盘分区编辑软件，可以无损修改分区大小，但建议编辑前做好数据备份" \
   FALSE "安装 Kazam" "简单好用的录屏软件" \
+  FALSE "安装 Zsh" "非常好用的shell！顺便安装Oh My Zsh" \
   TRUE "修复损坏的软件包" "修复软件包依赖，修复无法启动的软件包" \
   TRUE "清理软件包" "删除系统冗余的软件包及清理本地软件包缓存" \
   --separator="|");
@@ -308,7 +309,7 @@ then
     echo ""
     wget http://codown.youdao.com/cidian/linux/youdao-dict_1.1.0-0-ubuntu_amd64.deb
     sudo apt-get -f install
-    sudo apt -y install python3-pyqt5 python3-pyqt5.qtmultimedia python3-pyqt5.qtquick python3-pyqt5.qtwebkit python3-xlib tesseract-ocr tesseract-ocr-eng tesseract-ocr-chi-sim tesseract-ocr-chi-tra qtdeclarative5-controls-plugin libgstreamer0.10-0 libgstreamer-plugins-base0.10-0  
+    sudo apt -y install python3-pyqt5 python3-pyqt5.qtmultimedia python3-pyqt5.qtquick python3-pyqt5.qtwebkit python3-xlib tesseract-ocr tesseract-ocr-eng tesseract-ocr-chi-sim tesseract-ocr-chi-tra qtdeclarative5-controls-plugin libgstreamer0.10-0 libgstreamer-plugins-base0.10-0
     sudo apt -y install gstreamer0.10-plugins-ugly ttf-wqy-microhei
     sudo dpkg -i youdao-dict_1.1.0-0-ubuntu_amd64.deb
   fi
@@ -352,6 +353,19 @@ then
   	sudo apt -y install kazam
   fi
 
+  #"安装 Zsh"
+  if [[ $GUI == *"安装 Zsh"* ]]
+  then
+  	clear
+  	echo "正在安装 Zsh"
+  	echo ""
+    sudo apt -y install zsh
+  	$ sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+    gsettings set org.pantheon.terminal.settings shell "zsh"
+    gsettings set org.pantheon.terminal.settings cursor-shape "Underline"
+    sed -i "s/robbyrussel/robbyrussell/g" `grep -rl "robbyrussel" $HOME/.zshrc`
+  fi
+
   # 安装 Brasero 操作
   if [[ $GUI == *"安装 Brasero"* ]]
   then
@@ -384,7 +398,7 @@ then
   clear
   echo "配置完成，部分配置重启后生效。"
   echo '-----------------------------------------------------------------------------'
-  echo '制作：ysfl   QQ：1007265870   邮箱：ysfllxcn@live.com   论坛：http://e.ysfl.cn/bbs'
+  echo '制作：ysfl   QQ：1007265870   邮箱：ysfllxcn@live.com   论坛：http://e.ysfl.cn/'
   echo 'ElementaryOS QQ群：142186807'
   echo '-----------------------------------------------------------------------------'
   notify-send -i utilities-terminal ElementartOS快速配置工具 "配置完成，部分配置重启后生效。"
