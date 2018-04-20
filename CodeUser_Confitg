@@ -62,7 +62,7 @@ fi
         sudo add-apt-repository -y ppa:danielrichter2007/grub-customizer
         sudo apt-get update
         sudo apt -y install com.github.tom95.indicator-synapse
-        sudo apt -y install apache2 mysql-server php7.0 php7.0-mysql mysql-client phpmyadmin php7.0-gd imagemagick postfix
+        sudo apt -y install apache2 libapache2-mod-php7.0 mysql-server php7.0 php7.0-mysql mysql-client phpmyadmin php7.0-gd imagemagick postfix
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         brew tap phinze/homebrew-cask && brew install brew-cask
         notify-send -i utilities-terminal ElementartOS快速配置工具 "系统组建安装完成，add-apt-repository命令现在可以使用了，C++编译环境已安装完毕"
