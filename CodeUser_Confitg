@@ -1,4 +1,7 @@
 #!/bin/bash
+path="$HOME/.app"
+app=$(dirname $(readlink -f "CodeUser_Confitg"))
+oss="$path/oss"
 # 清空终端
 clear
 zenity --info --text "本脚本适用于C++、PHP程序员"
@@ -51,7 +54,8 @@ fi
   	echo ""
         mkdir ~/.themes
         mkdir ~/.icons
-        sudo apt -y install python-software-properties
+        mkdir ~/.app
+        sudo apt -y install python-software-properties cockpit
   	    sudo apt -y install build-essential autoconf libtool gcc g++ make cmake git-core links zip unzip unrar software-properties-common grep patch wget git gitg nodejs
         sudo apt -y install automake zlibc libc6 binutils libssl-dev libace-dev grep screen ruby
         sudo add-apt-repository -y ppa:tombeckmann/indicator-synapse
@@ -153,6 +157,10 @@ fi
     sudo apt -y remove ibus
     sudo apt -y install switchboard-plug-gcc-color switchboard-plug-gcc-sound switchboard-plug-gcc-wacom unity-control-center
   	sudo apt -y install bleachbit docky gnome-system-monitor gnome-calculator qbittorrent uget aria2 gparted shutter gimp firefox synapse
+    wget https://luogc.oss-cn-hangzhou.aliyuncs.com/oss-browser-publish/1.6.4/oss-browser-linux-x64.zip && unzip oss-browser-linux-x64.zip $HOME/.app/
+    echo "Exec=$oss/oss-browser">>$app/OSS-Aliyun.desktop
+    echo "Icon=$oss/resources/custom/icon.png">>$app/OSS-Aliyun.desktop
+    sudo cp OSS-Aliyun.desktop /usr/share/applications
     notify-send -i utilities-terminal ElementartOS快速配置工具 "Fcitx输入法框架安装完成，重启后生效。"
   fi
 
