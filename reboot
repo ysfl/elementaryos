@@ -1,0 +1,19 @@
+#!/bin/sh
+dir=$HOME/Web/wget
+mkdir dir
+szAnswer=$(zenity --entry --text "请填写要爬取的URL" --entry-text "www.baidu.com");
+if wget -c -r -npH -k -p -P $HOME/Web/wget $szAnswer; then
+zenity --info \
+--text="$szAnswer爬取成功!
+文件已下载到$dir"
+zenity --notification\
+    --window-icon="info" \
+    --text="$szAnswer爬取成功！
+    文件已下载到$dir"
+else
+zenity --error \
+--text="$szAnswer爬取失败"
+zenity --notification\
+    --window-icon="info" \
+    --text="$szAnswer爬取失败了……"
+fi
