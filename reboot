@@ -1,7 +1,8 @@
 #!/bin/sh
 dir=$HOME/Web/wget
-mkdir dir
+mkdir $HOME/Web/wget
 szAnswer=$(zenity --entry --text "请填写要爬取的URL" --entry-text "www.baidu.com");
+wget=wget -c -r -npH -k -p -P $HOME/Web/wget $szAnswer
 if wget -c -r -npH -k -p -P $HOME/Web/wget $szAnswer; then
 zenity --info \
 --text="$szAnswer爬取成功!
