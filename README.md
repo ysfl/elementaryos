@@ -5,11 +5,19 @@
 ## Elementary OS Config
 >普通用户使用elementary_config即可
 
-####一键使用命令：
->``git clone https://github.com/ysfl/elementaryos.git && ./elementaryos/elementary_config``
+######一键使用命令：
+``` shell
+git clone https://github.com/ysfl/elementaryos.git && ./elementaryos/elementary_config
+```
+
+###如果您已下载
+``` shell
+cd "You elementaryos File Dir"
+sudo ./elementary_config
+```
 ---
 #### elementary_conf 安装脚本软件明细：
-|ProgramName|Describe|Default|
+|软件名称|详细描述|默认安装|
 |----|----|----|
 |Nautilus|Desktop|x
 |GCC||**True**
@@ -102,4 +110,5 @@ License: GPL 2.0
 
 ## 链接
 About [ysfl](http://blog.ysfl.cn)
+
 [BBS](http://e.ysfl.cn/bbs/forum.php)  : http://e.ysfl.cn/bbs/forum.php
