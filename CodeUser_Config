@@ -1,0 +1,260 @@
+#!/bin/bash
+path="$HOME/.app"
+app=$(dirname $(readlink -f "CodeUser_Config"))
+oss="$path/oss"
+# 清空终端
+clear
+zenity --info --text "本脚本适用于C++、PHP程序员
+集成环境：Apache2、Mysql、PHP7.0、C++、Zsh、OhMyZsh
+   软件：Sublime Text3、ShadowSocks-QT5、Chrome、Composer、Brew、阿里云OSS、谷歌输入法、Gimp
+   系统：Grub自定义软件、Cockpit、Synapse、Tweaks"
+# 构建图形化界面
+GUI=$(zenity --list --checklist \
+  --height="800" \
+  --width="1800" \
+  --title="Elementary OS 快速配置工具" \
+  --text="请从下面列表中选择需要设置或安装的项目" \
+  --column="选择" --column="操作"	--column="描述" \
+  TRUE  "Update Source" "更新软件源"  \
+  TRUE  "系统组件" "一些系统必备的组建" \
+  FALSE "桌面组件" "系统桌面图标显示，右键正常使用" \
+  TRUE "安装软件包" "安装软件包"\
+  TRUE "Sublime Text3" "一款流行的代码编辑器软件"  \
+  TRUE "顶部面板网速工具" "在顶部面板显示当前网速，可监控指定网卡" \
+  TRUE "SS客户端" "梯子工具" \
+  TRUE "Elementary Tweaks" "用于安装系统主题，进行系统其他配置" \
+  TRUE "Google Chrome" "安装谷歌浏览器，并卸载系统自带的浏览器" \
+  TRUE "WPS" "安装 wps office" \
+  TRUE "LibreOffice 6.0" "安装 LibreOffice，最新版~~~"\
+  TRUE "网易云音乐" "目前 Linux 平台唯一的在线音乐客户端" \
+  TRUE "Arronax" "用于创建或编辑启动器图标" \
+  TRUE "Zsh" "非常好用的shell！顺便安装Oh My Zsh" \
+  TRUE "修复损坏的软件包" "修复软件包依赖，修复无法启动的软件包" \
+  TRUE "清理软件包" "删除系统冗余的软件包及清理本地软件包缓存" \
+  --separator="|");
+
+if [[ $GUI ]]
+then
+
+  # 更新源
+  if [[ $GUI == *"Update Source"* ]]
+  then
+    clear
+  	echo "正在更新源......"
+  	echo ""
+    zenity --question --text="是否更新？"
+    if [ $? = 0 ]
+then
+    notify-send -i utilities-terminal ElementartOS快速配置工具 "rsnapshot done :)"
+fi
+  fi
+
+  # 安装软件源设置工具操作
+  if [[ $GUI == *"系统组件"* ]]
+  then
+  	clear
+  	echo "正在安装系统组件"
+  	echo ""
+        mkdir ~/.themes
+        mkdir ~/.icons
+        mkdir ~/.app
+        sudo apt -y install python-software-properties cockpit
+  	    sudo apt -y install build-essential autoconf libtool gcc g++ make cmake git-core links zip unzip unrar software-properties-common grep patch wget git gitg nodejs
+        sudo apt -y install automake zlibc libc6 binutils libssl-dev libace-dev grep screen ruby
+        sudo add-apt-repository -y ppa:tombeckmann/indicator-synapse
+        sudo add-apt-repository -y ppa:danielrichter2007/grub-customizer
+        sudo apt-get update
+        sudo apt -y install com.github.tom95.indicator-synapse
+        sudo apt -y install apache2 libapache2-mod-php7.0 mysql-server php7.0 php7.0-mysql mysql-client phpmyadmin php7.0-gd imagemagick postfix
+        sudo a2enmod rewrite
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        brew tap phinze/homebrew-cask && brew install brew-cask
+        notify-send -i utilities-terminal ElementartOS快速配置工具 "系统组建安装完成，add-apt-repository命令现在可以使用了，C++编译环境已安装完毕"
+  fi
+
+  # 安装安装桌面组件
+  if [[ $GUI == *"桌面组件"* ]]
+  then
+
+    echo "正在安装安装系统组件"
+    echo ""
+    sudo apt -y install nautilus
+    gsettings set org.gnome.desktop.background show-desktop-icons 'true'
+  fi
+
+  # Sublime Text3
+  if [[ $GUI == *"Sublime Text3"* ]]
+  then
+
+        echo "正在安装Sublime Text3......"
+        echo ""
+        wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+        sudo apt -y install apt-transport-https
+        echo "deb https://download.sublimetext.com/ apt/dev/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+        sudo rm /var/lib/apt/lists/lock
+        sudo apt-get update
+        sudo apt -y install sublime-text
+        git clone https://github.com/lyfeyaj/sublime-text-imfix.git
+        cd sublime-text-imfix && ./sublime-imfix
+  fi
+
+  # 安装顶部面板网速工具
+  if [[ $GUI == *"顶部面板网速工具"* ]]
+  then
+
+  	    echo "正在安装顶部面板网速工具"
+  	    echo ""
+  	    sudo add-apt-repository -y ppa:nilarimogard/webupd8
+        sudo rm /var/lib/apt/lists/lock
+        sudo apt-get update
+        sudo apt -y install indicator-netspeed
+        indicator-netspeed &
+  fi
+
+  # 安装SS客户端
+  if [[ $GUI == *"SS客户端"* ]]
+  then
+  	clear
+  	echo "正在安装SS客户端"
+  	echo ""
+  	sudo sh -c 'printf "deb http://deb.debian.org/debian jessie-backports main\n" > /etc/apt/sources.list.d/jessie-backports.list'
+        sudo sh -c 'printf "deb http://deb.debian.org/debian jessie-backports-sloppy main" >> /etc/apt/sources.list.d/jessie-backports.list'
+        sudo add-apt-repository -y ppa:hzwhuang/ss-qt5
+        sudo rm /var/lib/apt/lists/lock
+        sudo apt-get update
+        sudo apt-get -y -f install
+        sudo apt -y install qt5-qmake qtbase5-dev libqrencode-dev libqtshadowsocks-dev libappindicator-dev libzbar-dev libbotan1.10-dev
+        sudo apt -y install shadowsocks-qt5
+  fi
+
+  # 安装 Elementary Tweaks 操作
+  if [[ $GUI == *"Elementary Tweaks"* ]]
+  then
+  	clear
+  	echo "正在安装 Elementary Tweaks"
+  	echo ""
+  	sudo add-apt-repository -y ppa:philip.scott/elementary-tweaks
+    sudo rm /var/lib/apt/lists/lock
+  	sudo apt update
+  	sudo apt -y install elementary-tweaks
+  fi
+
+  # 安装 Google Chrome 操作
+  if [[ $GUI == *"Google Chrome"* ]]
+  then
+  	clear
+  	    echo "正在安装 Google Chrome"
+  	    echo ""
+  	    wget http://linux-1251056822.file.myqcloud.com/ubuntu/google-chrome-stable_current_amd64.deb
+  	    sudo apt install libappindicator1 -y
+        sudo dpkg -i google-chrome-stable_current_amd64.deb
+  fi
+
+  # 安装软件包
+  if [[ $GUI == *"安装软件包"* ]]
+  then
+  	clear
+  	echo "正在安装软件包"
+  	echo ""
+    sudo apt install -y fcitx fcitx-frontend-all fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-frontend-qt4 fcitx-config-gtk fcitx-ui-classic fcitx-module-kimpanel fcitx-module-dbus libopencc1 fcitx-libs-qt fcitx-libs im-config fcitx-googlepinyin
+    sudo apt -y install libgtkmm-2.4-1v5 gir1.2-keybinder-3.0 gnome-session-canberra
+    sudo apt -y remove ibus
+    sudo apt -y install switchboard-plug-gcc-color switchboard-plug-gcc-sound switchboard-plug-gcc-wacom unity-control-center
+  	sudo apt -y install bleachbit docky gnome-system-monitor gnome-calculator qbittorrent uget aria2 gparted shutter gimp firefox synapse
+    wget https://luogc.oss-cn-hangzhou.aliyuncs.com/oss-browser-publish/1.6.4/oss-browser-linux-x64.zip && unzip oss-browser-linux-x64.zip $HOME/.app/
+    echo "Exec=$oss/oss-browser">>$app/OSS-Aliyun.desktop
+    echo "Icon=$oss/resources/custom/icon.png">>$app/OSS-Aliyun.desktop
+    sudo cp OSS-Aliyun.desktop /usr/share/applications
+    notify-send -i utilities-terminal ElementartOS快速配置工具 "Fcitx输入法框架安装完成，重启后生效。"
+  fi
+
+  # 安装 WPS 操作
+  if [[ $GUI == *"WPS"* ]]
+  then
+    clear
+    echo "正在安装WPS"
+    echo ""
+    wget http://kdl.cc.ksosoft.com/wps-community/download/a21/wps-office_10.1.0.5672~a21_amd64.deb
+    sudo dpkg -i wps-office_10.1.0.5672~a21_amd64.deb
+  fi
+
+  # 安装 LibreOffice 6.0 操作
+  if [[ $GUI == *"LibreOffice 6.0"* ]]
+  then
+    clear
+    echo "正在安装LibreOffice最新版6.0"
+    echo ""
+    wget http://download.documentfoundation.org/libreoffice/stable/6.0.3/deb/x86_64/LibreOffice_6.0.3_Linux_x86-64_deb.tar.gz
+    wget http://mirror.rise.ph/tdf/libreoffice/stable/6.0.3/deb/x86_64/LibreOffice_6.0.3_Linux_x86-64_deb_langpack_zh-CN.tar.gz
+    tar -zxvf LibreOffice_6.0.3_Linux_x86-64_deb_langpack_zh-CN.tar.gz
+    tar -zxvf LibreOffice_6.0.3_Linux_x86-64_deb.tar.gz
+    sudo dpkg -i LibreOffice_6.0.3.2_Linux_x86-64_deb/DEBS/*.deb
+    sudo dpkg -i LibreOffice_6.0.3.2_Linux_x86-64_deb_langpack_zh-CN/DEBS/*.deb
+    sudo rm -R LibreOffice_6.0.3.2_Linux_x86-64_deb LibreOffice_6.0.3.2_Linux_x86-64_deb_langpack_zh-CN
+  fi
+
+  # 安装网易云音乐操作
+  if [[ $GUI == *"网易云音乐"* ]]
+  then
+    clear
+    echo "正在下载网易云音乐安装包"
+    echo ""
+    wget http://s1.music.126.net/download/pc/netease-cloud-music_1.0.0-2_amd64_ubuntu16.04.deb
+    sudo dpkg -i netease-cloud-music_1.0.0-2_amd64_ubuntu16.04.deb
+  fi
+
+  # 安装 Arronax 操作
+  if [[ $GUI == *"Arronax"* ]]
+  then
+    clear
+    echo "正在Arronax"
+    echo ""
+    sudo add-apt-repository -y ppa:diesch/testing
+    sudo rm /var/lib/apt/lists/lock
+    sudo apt update
+    sudo apt -y install arronax
+  fi
+
+  #"安装 Zsh"
+  if [[ $GUI == *"Zsh"* ]]
+  then
+  	clear
+  	echo "正在安装 Zsh"
+  	echo ""
+    sudo apt -y install zsh
+  	sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+    gsettings set org.pantheon.terminal.settings shell "zsh"
+    gsettings set org.pantheon.terminal.settings cursor-shape "Underline"
+    sed -i "s/robbyrussel/robbyrussell/g" `grep -rl "robbyrussel" $HOME/.zshrc`
+  fi
+
+  # 修复损坏的软件包操作
+  if [[ $GUI == *"修复损坏的软件包"* ]]
+  then
+  	clear
+  	echo "正在修复损坏的软件包"
+  	echo ""
+  	sudo apt -y -f install
+  fi
+
+  # 清理软件包操作
+  if [[ $GUI == *"清理软件包"* ]]
+  then
+  	clear
+  	echo "正在清理软件包"
+  	echo ""
+  	sudo apt -y autoremove
+  	sudo apt -y autoclean
+  fi
+
+  # 完成通知
+  clear
+  echo "配置完成，部分配置重启后生效。"
+  echo '-----------------------------------------------------------------------------'
+  echo '制作：ysfl   QQ：1007265870   邮箱：ysfllxcn@live.com   论坛：http://e.ysfl.cn/'
+  echo 'ElementaryOS QQ群：142186807'
+  echo '-----------------------------------------------------------------------------'
+  notify-send -i utilities-terminal ElementartOS快速配置工具 "配置完成，部分配置重启后生效。"
+
+
+fi
